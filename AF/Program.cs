@@ -1,4 +1,4 @@
-﻿namespace DesignPatterns
+namespace DesignPatterns
 {
     // Class for Printer
     // TODO#1: Convert to use Singleton pattern
@@ -35,6 +35,32 @@
         void PublishResults();
     }
 
+    public abstract class ExamFactory 
+    {
+        public abstract Exam CreateExam();
+    }
+
+    public class MathExamFactory : ExamFactory 
+    {
+        public override Exam CreateExam()
+        {
+            return new MathExam();
+        }
+    }
+    public class ScienceExamFactory : ExamFactory 
+    {
+        public override Exam CreateExam()
+        {
+            return new ScienceExam();
+        }
+    }
+    public class ProgrammingExamFactory : ExamFactory 
+    {
+        public override Exam CreateExam()
+        {
+            return new ProgrammingExam();
+        }
+    }
     public class MathExam : Exam
     {
         public void Conduct()
@@ -120,21 +146,16 @@
             Printer anotherPrinter = Printer.Instance();
             Console.WriteLine("Are the two printer instances the same? " + (printer == anotherPrinter));
             // TODO#10: Use Abstract Factory to create different types of exams.
-            Exam mathExam = new MathExam();
-            Exam scienceExam = new ScienceExam();
-            Exam programmingExam = new ProgrammingExam();
 
-            mathExam.Conduct();
-            mathExam.Evaluate();
-            mathExam.PublishResults();
+            var math_exam = new MathExamFactory().CreateExam();
+            var science_exam = new ScienceExamFactory().CreateExam();
+            var programming_exam = new ProgrammingExamFactory().CreateExam();
 
-            scienceExam.Conduct();
-            scienceExam.Evaluate();
-            scienceExam.PublishResults();
+            math_exam.Conduct();
+            science_exam.Evaluate();
+            programming_exam.PublishResults();
 
-            programmingExam.Conduct();
-            programmingExam.Evaluate();
-            programmingExam.PublishResults();
+
         }
     }
 
